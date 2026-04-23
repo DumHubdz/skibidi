@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>🔥 Script Raw Creator 🔥</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: linear-gradient(135deg, #0f0f0f, #1c1c1c);
+    color: white;
+}
+
+.container {
+    width: 90%;
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #111;
+    border-radius: 15px;
+    box-shadow: 0 0 20px #000;
+}
+
+h1 {
+    text-align: center;
+    color: cyan;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    background: #222;
+    color: white;
+}
+
+textarea {
+    width: 100%;
+    height: 300px;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    background: #000;
+    color: #0f0;
+    font-family: monospace;
+}
+
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    margin: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-create { background: cyan; color: black; }
+.btn-download { background: lime; }
+.btn-copy { background: orange; }
+
+.output {
+    margin-top: 15px;
+    background: #222;
+    padding: 10px;
+    border-radius: 10px;
+    word-break: break-all;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+    <h1>🔥 Script Raw Creator 🔥</h1>
+
+    <input id="scriptName" placeholder="Nhập tên script...">
+
+    <textarea id="code" placeholder="Dán code script vào đây..."></textarea>
+
+    <br>
+
+    <button class="btn-create" onclick="createRaw()">Tạo RAW</button>
+    <button class="btn-download" onclick="downloadFile()">Tải File</button>
+    <button class="btn-copy" onclick="copyRaw()">Copy RAW</button>
+
+    <div class="output" id="output">Link RAW sẽ hiện ở đây...</div>
+</div>
+
+<script>
+let rawData = "";
+
+function createRaw() {
+    const name = document.getElementById("scriptName").value || "script";
+    const code = document.getElementById("code").value;
+
+    if (!code) {
+        alert("Chưa nhập code!");
+        return;
+    }
+
+    // tạo blob (giả raw)
+    const blob = new Blob([code], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+
+    rawData = url;
+
+    document.getElementById("output").innerText = "RAW: " + url;
+}
+
+function downloadFile() {
+    if (!rawData) return alert("Chưa tạo RAW!");
+
+    const a = document.createElement("a");
+    a.href = rawData;
+
+    const name = document.getElementById("scriptName").value || "script";
+    a.download = name + ".lua";
+
+    a.click();
+}
+
+function copyRaw() {
+    if (!rawData) return alert("Chưa tạo RAW!");
+
+    navigator.clipboard.writeText(rawData);
+    alert("Đã copy!");
+}
+</script>
+
+</body>
+</html>
